@@ -18,10 +18,8 @@ For information on what ELO is : https://fivethirtyeight.com/features/introducin
 
 Sample output of program on 10/2/2017:
 
-
-
-                      wins  losses  Current ELO
-team                                           
+                      
+team                  wins  losses  Current ELO                                  
 Kansas City Chiefs       3       0         1528
 Buffalo Bills            3       1         1520
 Detroit Lions            3       1         1519
