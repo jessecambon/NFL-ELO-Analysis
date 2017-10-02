@@ -18,7 +18,7 @@ For information on what ELO is : https://fivethirtyeight.com/features/introducin
 
 Sample output of program on 10/2/2017:
 
-                      
+```                      
 team                  wins  losses  Current ELO                                  
 Kansas City Chiefs       3       0         1528
 Buffalo Bills            3       1         1520
@@ -52,3 +52,4 @@ Los Angeles Chargers     0       4         1462
 Cleveland Browns         0       4         1460
 San Francisco 49ers      0       4         1460
 New York Giants          0       4         1460
+```
