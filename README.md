@@ -1,6 +1,8 @@
 # NFL ELO Analysis
 
 Author: Jesse Cambon, myfullname -a/t- gmail
+
+
 Date: 10/2/2017
 
 Description:
@@ -10,12 +12,13 @@ Scrapes NFL results from pro-football-reference and calculates ELO ratings for e
 Currently this is just for historical results. I also start ELOs at 1500 for the season
 (does not take into account prior season)
 
-
-Data URL: https://www.pro-football-reference.com/years/2017/games.htm#games::none 
-
+For information on what ELO is : https://fivethirtyeight.com/features/introducing-nfl-elo-ratings/
 
 
-Sample output of program on 10/2/2017 for ELO constant K of 20 :
+
+Sample output of program on 10/2/2017:
+
+
 
                       wins  losses  Current ELO
 team                                           
