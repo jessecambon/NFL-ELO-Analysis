@@ -26,12 +26,12 @@ import pandas as pd
 # Starting out with calculating # of wins
 
 
-# Data source
+# Data source we are going to scrape for results
 data_url = 'https://www.pro-football-reference.com/years/2017/games.htm#games::none'
          
 
 # Scrape the index of a given page
-# Return a list of the links
+# Return a list of specified web elements
 def scrape(selection,element_type):
 
     
@@ -50,7 +50,7 @@ def scrape(selection,element_type):
 
 
 
-
+# This is the web data we 
 page = requests.get(data_url)
 soup = BeautifulSoup(page.content, 'html.parser')
 
@@ -78,12 +78,12 @@ team_ref['wins'] = 0
 team_ref['losses'] = 0
 
 
-# ELO rating day of the match
+# Initialize ELO rating day of the match
 season['winner_elo'] = 0
 season['loser_elo'] = 0
 season['elo_diff'] = 0
 
-# ELO rating adjusted for the given match results
+# Initialize ELO rating adjusted for the given match results
 season['winner_adj_elo'] = 0
 season['loser_adj_elo'] = 0
 season['elo_adj_diff'] = 0
@@ -93,6 +93,9 @@ season['elo_adj_diff'] = 0
 
 
 K = 20 # this is the ELO adjustment constant
+
+
+# Iterate through results of the season
 
 for i in range(len(season)):
     
@@ -141,27 +144,12 @@ for i in range(len(season)):
  
 #team_ref['elo'][-1]
 
+
+# Get the current ELO, it's the last one in the ELO column list for each team
 team_ref['Current ELO'] = [ a[-1] for a in team_ref['elo'] ]
 
 
 # Display teams with the top ELOS
 print(team_ref[['wins','losses','Current ELO']].sort_values('Current ELO',ascending=False))
-
-#team_ref.loc['Chicago Bears']['elo'] += 500
-    
-    
-
-#team_ref.sort_values('wins',ascending=False)
-
-
-
-#download_file('https://energyplus.net/weather-location/africa_wmo_region_1/EGY//EGY_Asyut.623930_ETMY/weather-download/africa_wmo_region_1/EGY//EGY_Asyut.623930_ETMY/EGY_Asyut.623930_ETMY.epw','Weather Files')
-
-#import re
-
-# Initialize index
-#Index = pd.DataFrame(columns=['Region','Country','City','Filename']) # Create empty dataframe
-    
-#scrape_links(data_url): # Regions
 
 
