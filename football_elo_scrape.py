@@ -42,8 +42,14 @@ def scrape(selection,element_type):
     data = soup.findAll("td", { "data-stat" : selection })
     for element in data:
         #print(element['href'])
-        links = element.findAll(element_type)
-        list_links += [a.contents[0] for a in links]
+        
+        # Add NA option 
+        if element_type!='na':          
+            list_links += [a.contents[0] for a in element.findAll(element_type)]
+        else:
+            # Extracts number if it exists
+            if str(element.renderContents()) != "b''":
+                list_links += [str(element.renderContents()).split('\'')[1]]
         #print(list_links)
    # 
     return list_links
@@ -57,11 +63,14 @@ soup = BeautifulSoup(page.content, 'html.parser')
 
 # Automatically only goes as far as shortest list
 # which is the pts_win (limits to only current games played)
-
+import numpy as np
 # this is a game level dataframe
-season = pd.DataFrame(list(zip(scrape("winner",'a'),scrape("loser",'a'),scrape("pts_win",'strong')))
-    ,columns=['winner','loser',"pts_win"])
 
+length = len(scrape("pts_win",'strong'))
+
+season = pd.DataFrame(np.column_stack([scrape("winner",'a')[:length],scrape("loser",'a')[:length],scrape("pts_win",'strong')[:length],scrape("pts_lose",'na')[:length]]),columns=['winner','loser',"pts_win",'pts_lose'])
+
+season['pts_diff'] = int(season['pts_win']) - int(season['pts_lose'])
 
 # This is a team level dataframe
 # I append winners to losers to get all possible teams
@@ -127,8 +136,8 @@ for i in range(len(season)):
     expected_winner_score = trans_winner_rating / (trans_winner_rating + trans_loser_rating)
     expected_loser_score = trans_loser_rating / (trans_winner_rating + trans_loser_rating)
     
-    season.at[i,'winner_adj_elo'] = season.at[i,'winner_elo'] + K * (1 - expected_winner_score)
-    season.at[i,'loser_adj_elo'] = season.at[i,'loser_elo'] + K * (0 - expected_loser_score)
+    season.at[i,'winner_adj_elo'] = season.at[i,'winner_elo'] + (K * (1 - expected_winner_score))
+    season.at[i,'loser_adj_elo'] = season.at[i,'loser_elo'] + (K * (0 - expected_loser_score))
     season.at[i,'elo_adj_diff'] = season.at[i,'winner_adj_elo'] - season.at[i,'loser_adj_elo']
     
     # Add our new elo scores to the team level spreadsheet
