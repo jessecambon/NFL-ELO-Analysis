@@ -32,14 +32,14 @@ data_url = 'https://www.pro-football-reference.com/years/2017/games.htm#games::n
 
 # Scrape the index of a given page
 # Return a list of specified web elements
-def scrape(selection,element_type):
+def scrape(selection,parent_object,element_type):
 
     
     # Select the given div
   #  data = soup.findAll("div", { "class" : "table_outer_container" })
     
     list_links = []
-    data = soup.findAll("td", { "data-stat" : selection })
+    data = soup.findAll(parent_object, { "data-stat" : selection })
     for element in data:
         #print(element['href'])
         
@@ -50,6 +50,7 @@ def scrape(selection,element_type):
             # Extracts number if it exists
             if str(element.renderContents()) != "b''":
                 list_links += [str(element.renderContents()).split('\'')[1]]
+                
         #print(list_links)
    # 
     return list_links
@@ -66,9 +67,14 @@ soup = BeautifulSoup(page.content, 'html.parser')
 import numpy as np
 # this is a game level dataframe
 
-length = len(scrape("pts_win",'strong'))
+length = len(scrape("pts_win",'td','strong'))
 
-season = pd.DataFrame(np.column_stack([scrape("winner",'a')[:length],scrape("loser",'a')[:length],scrape("pts_win",'strong')[:length],scrape("pts_lose",'na')[:length]]),columns=['winner','loser',"pts_win",'pts_lose'])
+week = scrape("week_num",'th','na')
+
+# Remove all the text from our week data column
+while 'Week' in week: week.remove('Week')
+
+season = pd.DataFrame(np.column_stack([week[:length],scrape("winner",'td','a')[:length],scrape("loser",'td','a')[:length],scrape("pts_win",'td','strong')[:length],scrape("pts_lose",'td','na')[:length]]),columns=['week','winner','loser',"pts_win",'pts_lose'])
 
 season['pts_diff'] = season['pts_win'].astype(int) - season['pts_lose'].astype(int)
 
@@ -202,5 +208,43 @@ team_ref['Current ELO'] = [ a[-1] for a in team_ref['elo'] ]
 
 # Display teams with the top ELOS
 print(team_ref[['wins','losses','Current ELO']].sort_values('Current ELO',ascending=False))
+
+
+# Now let's predict next week
+current_week = season['week'].max()
+
+
+next_week = pd.DataFrame(np.column_stack([week,scrape("winner",'td','a'),scrape("loser",'td','a')]),columns=['week','team1','team2'])
+next_week = next_week[next_week['week'] == str(int(current_week) + 1)].reset_index(drop=True)
+
+#initialize
+next_week['team1_win_prob'] = 0.00
+next_week['predicted_winner'] = ''
+
+for i in range(len(next_week)):
+    team1_elo = team_ref.at[next_week.loc[i]['team1'],'elo'][-1]
+    team2_elo =team_ref.at[next_week.loc[i]['team2'],'elo'][-1]
+    elo_diff = team1_elo - team2_elo
+    
+    trans_team1_rating = 10**(team1_elo / 400)
+    trans_team2_rating = 10**(team2_elo / 400)
+    
+   # print(trans_team1_rating)
+    #print(trans_team2_rating)
+#    print(trans_winner_rating)
+   # print(trans_loser_rating)
+    
+    next_week.at[i,'team1_win_prob'] = trans_team1_rating / (trans_team1_rating + trans_team2_rating)
+    
+    if next_week.at[i,'team1_win_prob'] > 0.5:
+        next_week.at[i,'predicted_winner'] = next_week.at[i,'team1']
+    else:
+        next_week.at[i,'predicted_winner'] = next_week.at[i,'team2']
+    
+    #print (trans_team1_rating / (trans_team1_rating + trans_team2_rating)
+    
+    #if i == 0:
+    #    break
+    
 
 

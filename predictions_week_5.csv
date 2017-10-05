@@ -1,0 +1,15 @@
+,week,team1,team2,team1_win_prob,predicted_winner
+0,5,New England Patriots,Tampa Bay Buccaneers,0.7117225243427554,New England Patriots
+1,5,San Francisco 49ers,Indianapolis Colts,0.33900090875364175,Indianapolis Colts
+2,5,New York Jets,Cleveland Browns,0.7175917231915313,New York Jets
+3,5,Arizona Cardinals,Philadelphia Eagles,0.4512256641402582,Philadelphia Eagles
+4,5,Tennessee Titans,Miami Dolphins,0.5,Miami Dolphins
+5,5,Jacksonville Jaguars,Pittsburgh Steelers,0.26300523945931054,Pittsburgh Steelers
+6,5,Buffalo Bills,Cincinnati Bengals,0.5896835031399501,Buffalo Bills
+7,5,Los Angeles Chargers,New York Giants,0.42010023964211846,New York Giants
+8,5,Carolina Panthers,Detroit Lions,0.4640840730548977,Detroit Lions
+9,5,Baltimore Ravens,Oakland Raiders,0.42571979634547563,Oakland Raiders
+10,5,Seattle Seahawks,Los Angeles Rams,0.6440338538222925,Seattle Seahawks
+11,5,Green Bay Packers,Dallas Cowboys,0.5686413918836675,Green Bay Packers
+12,5,Kansas City Chiefs,Houston Texans,0.7302454132974238,Kansas City Chiefs
+13,5,Minnesota Vikings,Chicago Bears,0.6912361524147631,Minnesota Vikings
