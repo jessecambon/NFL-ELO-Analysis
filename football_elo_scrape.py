@@ -70,16 +70,55 @@ length = len(scrape("pts_win",'strong'))
 
 season = pd.DataFrame(np.column_stack([scrape("winner",'a')[:length],scrape("loser",'a')[:length],scrape("pts_win",'strong')[:length],scrape("pts_lose",'na')[:length]]),columns=['winner','loser',"pts_win",'pts_lose'])
 
-season['pts_diff'] = int(season['pts_win']) - int(season['pts_lose'])
+season['pts_diff'] = season['pts_win'].astype(int) - season['pts_lose'].astype(int)
 
 # This is a team level dataframe
 # I append winners to losers to get all possible teams
-team_ref = pd.DataFrame(season['winner'].append(season['loser']),columns=['team']).drop_duplicates().set_index(['team'])
+team_ref = pd.DataFrame(season['winner'].append(season['loser']),columns=['team']).drop_duplicates().set_index(['team']).sort_index()
 
 #initialize vars
 
-#team_ref['elo'] = 1500
-team_ref['elo'] = [[1500] for _ in range(len(team_ref))]
+
+# Typed these values in from 538.com
+# teams in alphabetical order
+elo_list = [
+[    1537],
+[    1617],
+[    1491],
+[    1484],
+[    1527],
+[    1384],
+[    1516],
+[    1336],
+[    1569],
+[    1556],
+[    1501],
+[    1587],
+[    1502],
+[    1514],
+[    1382],
+[    1613],
+[    1437],
+[    1399],
+[    1509],
+[    1498],
+[    1687],
+[    1498],
+[    1530],
+[    1452],
+[    1530],
+[    1511],
+[    1599],
+[    1353],
+[    1571],
+[    1506],
+[    1460],
+[    1504]]
+
+team_ref['elo'] = elo_list
+
+# Old code to start every team at 1500
+#team_ref['elo'] = [[1500] for _ in range(len(team_ref))]
 
 
 # Initialize wins
@@ -111,7 +150,7 @@ for i in range(len(season)):
     # Names of teams that won and lost for a given game
     winner = season.loc[i]['winner']
     loser = season.loc[i]['loser']
-    
+    pts_diff = season.loc[i]['pts_diff']
     
     
     # Update counter on team sheet
@@ -134,10 +173,13 @@ for i in range(len(season)):
    # print(trans_loser_rating)
     
     expected_winner_score = trans_winner_rating / (trans_winner_rating + trans_loser_rating)
-    expected_loser_score = trans_loser_rating / (trans_winner_rating + trans_loser_rating)
     
-    season.at[i,'winner_adj_elo'] = season.at[i,'winner_elo'] + (K * (1 - expected_winner_score))
-    season.at[i,'loser_adj_elo'] = season.at[i,'loser_elo'] + (K * (0 - expected_loser_score))
+    elo_adj = np.log(pts_diff) * K * (1 - expected_winner_score)
+    
+    #expected_loser_score = trans_loser_rating / (trans_winner_rating + trans_loser_rating)
+    
+    season.at[i,'winner_adj_elo'] = season.at[i,'winner_elo'] + elo_adj
+    season.at[i,'loser_adj_elo'] = season.at[i,'loser_elo'] - elo_adj
     season.at[i,'elo_adj_diff'] = season.at[i,'winner_adj_elo'] - season.at[i,'loser_adj_elo']
     
     # Add our new elo scores to the team level spreadsheet
