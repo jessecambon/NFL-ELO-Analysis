@@ -55,4 +55,26 @@ Los Angeles Chargers     0       4         1407
 Chicago Bears            1       3         1370
 San Francisco 49ers      0       4         1319
 Cleveland Browns         0       4         1292
+
+
+PREDICTIONS FOR NEXT WEEK (WEEK 5):
+
+week	team1			team2		team1_win_prob	predicted_winner
+5	New England Patriots	Tampa Bay Buccaneers	71.17%	New England Patriots
+5	San Francisco 49ers	Indianapolis Colts	33.90%	Indianapolis Colts
+5	New York Jets		Cleveland Browns	71.76%	New York Jets
+5	Arizona Cardinals	Philadelphia Eagles	45.12%	Philadelphia Eagles
+5	Tennessee Titans	Miami Dolphins		50.00%	Miami Dolphins
+5	Jacksonville Jaguars	Pittsburgh Steelers	26.30%	Pittsburgh Steelers
+5	Buffalo Bills		Cincinnati Bengals	58.97%	Buffalo Bills
+5	Los Angeles Chargers	New York Giants		42.01%	New York Giants
+5	Carolina Panthers	Detroit Lions		46.41%	Detroit Lions
+5	Baltimore Ravens	Oakland Raiders		42.57%	Oakland Raiders
+5	Seattle Seahawks	Los Angeles Rams	64.40%	Seattle Seahawks
+5	Green Bay Packers	Dallas Cowboys		56.86%	Green Bay Packers
+5	Kansas City Chiefs	Houston Texans		73.02%	Kansas City Chiefs
+5	Minnesota Vikings	Chicago Bears		69.12%	Minnesota Vikings
+
+
+
 ```
