@@ -248,3 +248,6 @@ for i in range(len(next_week)):
     
 
 
+team_ref.to_json('team_ref.json')
+season.to_json('season.json')
+next_week.to_json('predictions.json')

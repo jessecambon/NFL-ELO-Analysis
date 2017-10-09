@@ -16,7 +16,8 @@ My ELO lines up fairly closely with 538's ELO. The biggest difference at
 the moment, I believe, is that I don't account for if a team is playing at home
 or away.
 
-For information on what ELO is : https://fivethirtyeight.com/features/introducing-nfl-elo-ratings/
+For information on what ELO is : http://www.eloratings.net/system.html
+https://fivethirtyeight.com/features/introducing-nfl-elo-ratings/
 
 
 Sample output of program on 10/4/2017:
