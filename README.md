@@ -1,8 +1,5 @@
 # NFL ELO Analysis
 
-Author: Jesse Cambon, myfullname -a/t- gmail
-
-
 Date: 10/2/2017
 
 Description:
